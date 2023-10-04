@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from './Navigation/Navigation';
 import { Card, Button, Row, Col, Container } from 'react-bootstrap';
 
 import * as bookService from '../../services/book-services';
@@ -15,7 +14,6 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
       <h2 className="text-center">Most liked books by the users</h2>
       <Container>
         <Row className="justify-content-center">
