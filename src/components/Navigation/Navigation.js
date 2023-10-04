@@ -6,6 +6,12 @@ import "./Navigation.css";
 const NavBar = () => {
   const { user } = useContext(AuthContext);
   const isUserAuth = user?.id ? true : false;
+  const { setUserSession } = useContext(AuthContext);
+
+  const logoutFnc = () => {
+    setUserSession({});
+    localStorage.clear();
+  };
 
   return (
     <nav className="navbar">
@@ -25,14 +31,20 @@ const NavBar = () => {
           <Link to="/add-book">Add Book</Link>
         </li>
       </ul>
-      {!isUserAuth ? (
+      {!isUserAuth 
+      ? 
+      (
         <div className="user-actions">
           <Link to="/login">Login</Link>
           <Link to="/register">Register</Link>
         </div>
-      ) : (
+      ) 
+      : 
+      (
         <li className="nav-links">
-          <Link to="/">Logout</Link>
+          <Link to="/" onClick={logoutFnc}>
+            Logout
+          </Link>
         </li>
       )}
     </nav>

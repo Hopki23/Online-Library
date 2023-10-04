@@ -2,28 +2,19 @@ import "./Login.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import * as authService from "../../services/authService"
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const { setUserSession } = useContext(AuthContext);
 
   const loginHandler = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
-        "https://localhost:3000/api/Authentication/Login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
+     const response = await authService.login(email, password);
+     
       if (response.ok) {
         const data = await response.json();
         if (data) {
