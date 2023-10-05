@@ -8,6 +8,8 @@ import Home from "./components/Home/Home";
 import Navigation from "./components/Navigation/Navigation";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import CreateBook from "./components/CreateBook/CreateBook";
+import CreateAuthor from "./components/CreateAuthor/CreateAuthor";
 
 import { GuestGuard } from "./guards/GuestGuard";
 import { UserGuard } from "./guards/UserGuard";
@@ -25,6 +27,10 @@ function App() {
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route element={<GuestGuard />}>
+             <Route path="/add-book" element={<CreateBook />}></Route>
+             <Route path="/add-author" element={<CreateAuthor />}></Route>
+          </Route>
           <Route element={<UserGuard />}>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>

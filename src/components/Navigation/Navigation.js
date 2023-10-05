@@ -27,26 +27,37 @@ const NavBar = () => {
         <li>
           <Link to="/catalog">Catalog</Link>
         </li>
-        <li>
-          <Link to="/add-book">Add Book</Link>
-        </li>
+        {isUserAuth
+          ?
+          <>
+            <li>
+              <Link to="/add-book">Add Book</Link>
+            </li>
+            <li>
+              <Link to="/add-author">Add Author</Link>
+            </li>
+          </>
+          :
+          null
+        }
       </ul>
-      {!isUserAuth 
-      ? 
-      (
-        <div className="user-actions">
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </div>
-      ) 
-      : 
-      (
-        <li className="nav-links">
-          <Link to="/" onClick={logoutFnc}>
-            Logout
-          </Link>
-        </li>
-      )}
+      {!isUserAuth
+        ?
+        (
+          <div className="user-actions">
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </div>
+        )
+        :
+        (
+          <li className="nav-links">
+            <span style={{ marginRight: '10px' }}>Hello, {user.username}</span>
+            <Link to="/" onClick={logoutFnc}>
+              Logout
+            </Link>
+          </li>
+        )}
     </nav>
   );
 };
