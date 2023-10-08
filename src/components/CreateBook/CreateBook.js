@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import * as authorService from '../../services/authorService'
 import './CreateBook.css'
 

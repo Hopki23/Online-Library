@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Row, Col, Container } from 'react-bootstrap';
 
-import * as bookService from '../../services/book-services';
+import * as bookService from '../../services/bookService';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
   const [book, setBooks] = useState([]);
 
   useEffect(() => {
-    bookService.getAll()
+    bookService.getMostLiked()
       .then((b) => setBooks(b));
   }, []);
 
@@ -23,16 +23,16 @@ const Home = () => {
                 <Card.Img variant="top" src={book.imageUrl} />
                 <Card.Body>
                   <Card.Title className='text-center'>{book.title}</Card.Title>
-                   <div className="d-flex justify-content-center align-items-center">
-                      <span role="img" aria-label="Heart Emoji" style={{ fontSize: '24px' }}>
-                        ❤️
-                      </span>
-                      <span className="ml-2">Likes: {book.likes}</span>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <span role="img" aria-label="Heart Emoji" style={{ fontSize: '24px' }}>
+                      ❤️
+                    </span>
+                    <span className="ml-2">Likes: {book.likes}</span>
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
-                    <Button variant="primary">Details
-                      <Link to= {`catalog/details/${book.id}`}></Link>
-                    </Button>
+                    <Link className="btn btn-primary" to={`catalog/details/${book.id}`}>
+                      Details
+                    </Link>
                   </div>
                 </Card.Body>
               </Card>

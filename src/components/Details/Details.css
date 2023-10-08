@@ -1,0 +1,78 @@
+/* Book Details Container */
+.book-details-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+  }
+  
+  /* Book Details Title */
+  .book-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  /* Book Description */
+  .book-description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    color: #666;
+  }
+  
+  /* Author Details */
+  .author-details {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Author Title */
+  .author-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Author Info List */
+  .author-info-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Author Info List Item */
+  .author-info-list li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #666;
+  }
+  
+  /* Media Query for Responsiveness (adjust as needed) */
+  @media (max-width: 768px) {
+    .book-details-container {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .book-title {
+      font-size: 20px;
+    }
+    .book-description {
+      font-size: 14px;
+    }
+
+    .author-details {
+      padding: 15px;
+    }
+    .author-title {
+      font-size: 18px;
+    }
+    .author-info-list li {
+      font-size: 14px;
+    }
+  }
+  

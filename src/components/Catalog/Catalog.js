@@ -1,24 +1,26 @@
 import { useState, useEffect } from 'react';
-import * as bookService from '../../services/book-services';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import * as bookService from '../../services/bookService';
 
 import './Catalog.css'
 
 const Catalog = () => {
     const [book, setBooks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-
+    
     useEffect(() => {
         bookService.getAll()
             .then((b) => setBooks(b))
     }, []);
 
     const filteredBooks = book.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
-      };
+    };
 
     return (
         <div className="catalog-container">
@@ -42,7 +44,11 @@ const Catalog = () => {
                         <h3 className="book-title">{book.title}</h3>
                         <p>About: {book.resume}</p>
                         <p>Genre: {book.genreName}</p>
-                        <button className="details-button">Details</button>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <Link className="btn btn-primary" to={`/catalog/details/${book.id}`}>
+                                Details
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>
