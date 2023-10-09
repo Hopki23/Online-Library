@@ -1,14 +1,25 @@
-import { useState, useEffect } from 'react';
-import * as authorService from '../../services/authorService'
-import './CreateBook.css'
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+
+import * as authorService from '../../services/authorService';
+import * as bookService from '../../services/bookService';
+
+import './CreateBook.css';
 
 const CreateBook = () => {
-    const [bookTitle, setBookTitle] = useState('');
-    const [dateOfPublish, setDateOfPublish] = useState('');
-    const [resume, setResume] = useState('');
-    const [genreName, setGenreName] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [selectedAuthor, setSelectedAuthor] = useState('');
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const [bookData, setBookData] = useState({
+        title: '',
+        dateOfPublish: '',
+        resume: '',
+        genreName: '',
+        imageUrl: '',
+        authorId: '',
+        userId: user.id
+    });
+    
     const [authors, setAuthors] = useState([]);
 
     useEffect(() => {
@@ -19,7 +30,18 @@ const CreateBook = () => {
     const createBookHandler = async (e) => {
         e.preventDefault();
 
+        try {
+            await bookService.createBook(bookData, user.token)
 
+            navigate('/catalog');
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const addBookData = (e) => {
+        setBookData({ ...bookData, [e.target.name]: e.target.value })
     };
 
     return (
@@ -27,12 +49,13 @@ const CreateBook = () => {
             <h2>Create a New Book</h2>
             <form onSubmit={createBookHandler} >
                 <div className="form-group">
-                    <label htmlFor="bookTitle">Title:</label>
+                    <label htmlFor="title">Title:</label>
                     <input
                         type="text"
-                        id="bookTitle"
-                        value={bookTitle}
-                        onChange={(e) => setBookTitle(e.target.value)}
+                        id="title"
+                        name='title'
+                        value={bookData.title}
+                        onChange={addBookData}
                         required
                     />
                 </div>
@@ -41,8 +64,9 @@ const CreateBook = () => {
                     <input
                         type="date"
                         id="dateOfPublish"
-                        value={dateOfPublish}
-                        onChange={(e) => setDateOfPublish(e.target.value)}
+                        name='dateOfPublish'
+                        value={bookData.dateOfPublish}
+                        onChange={addBookData}
                         required
                     />
                 </div>
@@ -50,8 +74,9 @@ const CreateBook = () => {
                     <label htmlFor="resume">Resume:</label>
                     <textarea
                         id="resume"
-                        value={resume}
-                        onChange={(e) => setResume(e.target.value)}
+                        name='resume'
+                        value={bookData.resume}
+                        onChange={addBookData}
                         required
                     ></textarea>
                 </div>
@@ -60,8 +85,9 @@ const CreateBook = () => {
                     <input
                         type="text"
                         id="genreName"
-                        value={genreName}
-                        onChange={(e) => setGenreName(e.target.value)}
+                        name='genreName'
+                        value={bookData.genreName}
+                        onChange={addBookData}
                         required
                     />
                 </div>
@@ -70,16 +96,23 @@ const CreateBook = () => {
                     <input
                         type="text"
                         id="imageUrl"
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        name='imageUrl'
+                        value={bookData.imageUrl}
+                        onChange={addBookData}
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="author">Author:</label>
                     <select
                         id="author"
-                        value={selectedAuthor}
-                        onChange={(e) => setSelectedAuthor(e.target.value)}
+                        name='authorId'
+                        value={bookData.selectedAuthor}
+                        onChange={(e) => {
+                            const selectedAuthor = authors.find(
+                                (author) => `${author.firstName} ${author.lastName}` === e.target.value
+                            );
+                            setBookData({ ...bookData, authorId: selectedAuthor ? selectedAuthor.id : '' });
+                        }}
                         required
                     >
                         <option value="">Select an Author</option>
