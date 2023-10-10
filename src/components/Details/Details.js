@@ -5,17 +5,31 @@ import { AuthContext } from "../../context/AuthContext";
 import * as bookService from '../../services/bookService'
 
 import './Details.css'
+import DeleteBookModal from "../ModalDialog/DeleteBookModal";
 
 const Details = () => {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const { id } = useParams();
     const [book, setBook] = useState([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         bookService.getById(id)
             .then((b) => setBook(b))
     }, []);
+
+    const toggleDeleteModal = () => {
+        setShowDeleteModal(!showDeleteModal);
+    };
+
+    const openDeleteModal = () => {
+        toggleDeleteModal();
+    };
+
+    const closeDeleteModal = () => {
+        toggleDeleteModal();
+    };
 
     const likeBook = async () => {
         if (user.id) {
@@ -39,10 +53,11 @@ const Details = () => {
 
     const deleteHandler = async () => {
         try {
+            openDeleteModal();
             const response = await bookService.deleteBook(book.id, user.token);
 
             if (response.success) {
-                
+
                 console.log('Book deleted successfully');
                 navigate("/catalog")
             } else {
@@ -50,6 +65,9 @@ const Details = () => {
             }
         } catch (error) {
             console.error(error);
+        }
+        finally {
+            closeDeleteModal(); // Close the modal after deletion or error
         }
     }
 
@@ -91,7 +109,7 @@ const Details = () => {
                                                 >
                                                     Edit
                                                 </Link>
-                                                <button onClick={deleteHandler}
+                                                <button onClick={openDeleteModal}
                                                     className="btn btn-danger"
                                                     style={{ flex: '1', margin: '0 4px' }}
                                                 >
@@ -142,6 +160,11 @@ const Details = () => {
                         </div>
                     </div>
                 </div>
+                <DeleteBookModal
+                show={showDeleteModal}
+                onClose={closeDeleteModal}
+                onDelete={deleteHandler}
+            />
             </div>
         </div>
     );
