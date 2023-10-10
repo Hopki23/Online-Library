@@ -15,7 +15,27 @@ const Details = () => {
         bookService.getById(id)
             .then((b) => setBook(b))
     }, []);
-    console.log(book);
+
+    const likeBook = async () => {
+        if (user.id) {
+            try {
+                const data = { userId: user.id, bookId: id };
+                const response = await bookService.likeBook(data, user.token);
+
+                if (response.success) {
+                    setBook((prevBook) => ({
+                        ...prevBook,
+                        likes: prevBook.likes + 1,
+                    }));
+                } else {
+                    console.log(response.message);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
     const isOwner = user.id === book.creatorId;
 
     return (
@@ -63,7 +83,11 @@ const Details = () => {
                                             </div>
                                         )
                                         : <div className="d-flex justify-content-center align-items-center">
-                                            <button className="btn btn-primary" style={{ width: '50px' }}>
+                                            <button
+                                                className="btn btn-primary"
+                                                style={{ width: '50px' }}
+                                                onClick={likeBook}
+                                            >
                                                 Like
                                             </button>
                                         </div>

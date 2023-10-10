@@ -33,4 +33,29 @@ export const createBook = async (book, token) => {
 
     const result = await response.json();
     return result;
-};  
+};
+
+export const likeBook = async (data, token) => {
+    try {
+        const response = await fetch(`${baseUrl}/Book/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            // Book liked successfully
+            return { success: true };
+        } else {
+            // Failed to like the book, parse error message
+            const errorData = await response.json();
+            return { success: false, message: errorData.message };
+        }
+    } catch (error) {
+        // Network error or other unexpected issues
+        return { success: false, message: 'An error occurred while liking the book.' };
+    }
+};
