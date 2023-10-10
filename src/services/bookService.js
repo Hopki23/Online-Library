@@ -59,3 +59,25 @@ export const likeBook = async (data, token) => {
         return { success: false, message: 'An error occurred while liking the book.' };
     }
 };
+
+export const deleteBook = async (id, token) => {
+    try {
+        const response = await fetch(`${baseUrl}/Book/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            return { success: true };
+
+        } else {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message };
+        }
+    } catch (error) {
+        return error;
+    }
+};

@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 import * as bookService from '../../services/bookService'
@@ -7,6 +7,7 @@ import * as bookService from '../../services/bookService'
 import './Details.css'
 
 const Details = () => {
+    const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const { id } = useParams();
     const [book, setBook] = useState([]);
@@ -33,6 +34,22 @@ const Details = () => {
             } catch (error) {
                 console.error(error);
             }
+        }
+    }
+
+    const deleteHandler = async () => {
+        try {
+            const response = await bookService.deleteBook(book.id, user.token);
+
+            if (response.success) {
+                
+                console.log('Book deleted successfully');
+                navigate("/catalog")
+            } else {
+                console.log(response.message);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -74,7 +91,7 @@ const Details = () => {
                                                 >
                                                     Edit
                                                 </Link>
-                                                <button
+                                                <button onClick={deleteHandler}
                                                     className="btn btn-danger"
                                                     style={{ flex: '1', margin: '0 4px' }}
                                                 >
