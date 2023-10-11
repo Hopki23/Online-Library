@@ -81,3 +81,27 @@ export const deleteBook = async (id, token) => {
         return error;
     }
 };
+
+export const updateBook = async (book, id, token) => {
+    try {
+        const response = await fetch(`${baseUrl}/Book/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(book)
+        });
+        console.log(response);
+        if (response.ok) {
+            return { success: true };
+
+        } else {
+            const errorData = await response.json();
+            return { success: false, message: errorData.message };
+        }
+
+    } catch (error) {
+        return error;
+    }
+}

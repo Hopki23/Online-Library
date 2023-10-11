@@ -12,6 +12,7 @@ import CreateBook from "./components/CreateBook/CreateBook";
 import CreateAuthor from "./components/CreateAuthor/CreateAuthor";
 import Catalog from "./components/Catalog/Catalog";
 import Details from "./components/Details/Details"
+import EditBook from "./components/EditBook/EditBook";
 
 import { GuestGuard } from "./guards/GuestGuard";
 import { UserGuard } from "./guards/UserGuard";
@@ -34,6 +35,7 @@ function App() {
           <Route element={<GuestGuard />}>
              <Route path="/add-book" element={<CreateBook />}></Route>
              <Route path="/add-author" element={<CreateAuthor />}></Route>
+             <Route path="/catalog/edit/:id" element={<EditBook />}></Route>
           </Route>
           <Route element={<UserGuard />}>
             <Route path="/login" element={<Login />}></Route>

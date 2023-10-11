@@ -14,11 +14,12 @@ const Details = () => {
     const [book, setBook] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+    const year = new Date(book.dateOfPublish).getFullYear();
+
     useEffect(() => {
         bookService.getById(id)
             .then((b) => setBook(b))
     }, []);
-
     const toggleDeleteModal = () => {
         setShowDeleteModal(!showDeleteModal);
     };
@@ -67,7 +68,7 @@ const Details = () => {
             console.error(error);
         }
         finally {
-            closeDeleteModal(); // Close the modal after deletion or error
+            closeDeleteModal();
         }
     }
 
@@ -91,6 +92,7 @@ const Details = () => {
                                 <br></br>
                                 <h2> Genre: {book.genreName}</h2>
                                 <div className="d-flex justify-content-center align-items-center">
+                                    <span>Date of publish: {year}</span>
                                     <span role="img" aria-label="Heart Emoji" style={{ fontSize: '24px' }}>
                                         ❤️
                                     </span>
@@ -161,10 +163,10 @@ const Details = () => {
                     </div>
                 </div>
                 <DeleteBookModal
-                show={showDeleteModal}
-                onClose={closeDeleteModal}
-                onDelete={deleteHandler}
-            />
+                    show={showDeleteModal}
+                    onClose={closeDeleteModal}
+                    onDelete={deleteHandler}
+                />
             </div>
         </div>
     );
